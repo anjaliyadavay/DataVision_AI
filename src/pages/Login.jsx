@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/main.css";
 import { useLocation } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { loginUser } from "../api";
+
 
 
 
@@ -24,46 +26,39 @@ const from =
   // Error messages
   const [errors, setErrors] = useState({});
 
-  const handleLogin = async () => {
-    const newErrors = {};
-    if (!email) newErrors.email = "Enter your email";
-    if (!password) newErrors.password = "Enter your password";
+const handleLogin = async () => {
+  const newErrors = {};
+  if (!email) newErrors.email = "Enter your email";
+  if (!password) newErrors.password = "Enter your password";
 
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length > 0) return; // stop if errors
+  setErrors(newErrors);
+  if (Object.keys(newErrors).length > 0) return;
 
-    try {
-      const res = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+  try {
+    const data = await loginUser({ email, password });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message); // backend error
-      } else {
-
-        // Prevent admin from logging in here
-  if (data.user.role === "admin") {
-    alert("Admins must login from the admin login page ❌");
-    return;
-  }
-        // Save token & user
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-
-navigate(from);
-
-// cleanup
-localStorage.removeItem("redirectAfterLogin");
-     }
-    } catch (err) {
-      alert("Server error");
-      console.error(err);
+    if (!data) {
+      alert("Login failed");
+      return;
     }
-  };
+
+    if (data.user.role === "admin") {
+      alert("Admins must login from the admin login page ❌");
+      return;
+    }
+
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    navigate(from);
+    localStorage.removeItem("redirectAfterLogin");
+
+  } catch (err) {
+    alert("Server error");
+    console.error(err);
+  }
+};
+
 
   // show hidden pass
 

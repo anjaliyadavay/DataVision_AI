@@ -11,6 +11,8 @@ import "../styles/result.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 function TableView() {
+
+  const API = import.meta.env.VITE_API_URL;
 const location = useLocation();
 
 const [state, setState] = useState(() => {
@@ -53,7 +55,7 @@ const [state, setState] = useState(() => {
     const updatedFields = {};
     updated.forEach((r) => (updatedFields[r.field] = r.value));
 
-    await fetch(`http://127.0.0.1:5000/update/${docId}`, {
+    await fetch(`${API}/update/${docId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ fields: updatedFields }),
@@ -67,7 +69,7 @@ const [state, setState] = useState(() => {
     const fields = {};
     updated.forEach((r) => (fields[r.field] = r.value));
 
-    await fetch(`http://127.0.0.1:5000/update/${docId}`, {
+    await fetch(`${API}/update/${docId}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ fields }),
@@ -162,7 +164,7 @@ const [state, setState] = useState(() => {
     });
 
     try {
-      const res = await fetch(`http://127.0.0.1:5000/update/${docId}`, {
+      const res = await fetch(`${API}/update/${docId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

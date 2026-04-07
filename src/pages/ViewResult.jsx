@@ -5,20 +5,23 @@ import TopBar from "../components/TopBar";
 
 
 function ViewResult() {
+
+  const API = import.meta.env.VITE_API_URL;
+
   const { id } = useParams();
   const navigate = useNavigate();
   const [doc, setDoc] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5000/document/${id}`)
+fetch(`${API}/document/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setDoc(data);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [id]);
+  }, [id, API]);
 
   if (loading) {
     return <p className="empty-text">Loading OCR result...</p>;

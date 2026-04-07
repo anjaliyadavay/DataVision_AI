@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/main.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { registerUser } from "../api";
+
 
 
 function Register() {
@@ -16,38 +18,40 @@ function Register() {
   // Error messages
   const [errors, setErrors] = useState({});
 
-  const handleRegister = async () => {
-    const newErrors = {};
-    if (!name) newErrors.name = "Enter your name";
-    if (!email) newErrors.email = "Enter your email";
-    if (!password) newErrors.password = "Enter your password";
-    if (!confirmPassword) newErrors.confirmPassword = "Confirm your password";
-    if (password && confirmPassword && password !== confirmPassword)
-      newErrors.confirmPassword = "Passwords do not match";
+const handleRegister = async () => {
+  const newErrors = {};
+  if (!name) newErrors.name = "Enter your name";
+  if (!email) newErrors.email = "Enter your email";
+  if (!password) newErrors.password = "Enter your password";
+  if (!confirmPassword) newErrors.confirmPassword = "Confirm your password";
+  if (password !== confirmPassword)
+    newErrors.confirmPassword = "Passwords do not match";
 
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length > 0) return; // stop if errors
+  setErrors(newErrors);
+  if (Object.keys(newErrors).length > 0) return;
 
-    try {
-      const res = await fetch("http://localhost:5000/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, confirmPassword }),
-      });
+  try {
+    const data = await registerUser({
+      name,
+      email,
+      password,
+      confirmPassword,
+    });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message); // backend error
-      } else {
-        alert("Registration successful!");
-        navigate("/login");
-      }
-    } catch (err) {
-      alert("Server error");
-      console.error(err);
+    if (!data) {
+      alert("Registration failed");
+      return;
     }
-  };
+
+    alert("Registration successful!");
+    navigate("/login");
+
+  } catch (err) {
+    alert("Server error");
+    console.error(err);
+  }
+};
+
 
   const [showPassword, setShowPassword] = useState(false);
 

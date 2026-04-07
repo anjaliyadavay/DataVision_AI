@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 
 function Analytics() {
   const [stats, setStats] = useState(null);
+  const API = import.meta.env.VITE_API_URL;
+
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/analytics")
+fetch(`${API}/analytics`)
       .then(res => res.json())
       .then(data => setStats(data));
-  }, []);
+  }, [API]);
 
   if (!stats) return <p>Loading analytics...</p>;
 

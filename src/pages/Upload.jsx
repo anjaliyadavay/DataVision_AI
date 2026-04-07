@@ -8,6 +8,9 @@ import TopBar from "../components/TopBar";
 
 
 function Upload() {
+
+  const PY_API = import.meta.env.VITE_PYTHON_API_URL;
+
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
 
@@ -20,7 +23,7 @@ function Upload() {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await fetch("http://127.0.0.1:5000/upload", {
+    const response = await fetch(`${PY_API}/upload`, {
       method: "POST",
       body: formData,
     });

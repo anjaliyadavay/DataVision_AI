@@ -7,6 +7,8 @@ import "../styles/result.css";
 
 
 function Documents() {
+  const API = import.meta.env.VITE_API_URL;
+
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -18,7 +20,7 @@ function Documents() {
   const fetchDocuments = (searchQuery = "") => {
   setLoading(true);
 
-  fetch(`http://127.0.0.1:5000/documents?search=${searchQuery}`)
+ fetch(`${API}/documents?search=${searchQuery}`)
     .then((res) => res.json())
     .then((data) => {
       setDocuments(data);
@@ -30,7 +32,7 @@ function Documents() {
 
   useEffect(() => {
     fetchDocuments();
-  }, []);
+  }, [API]);
 
   
 
@@ -38,7 +40,7 @@ function Documents() {
   const deleteDocument = async (id) => {
     if (!window.confirm("Are you sure you want to delete this document?")) return;
 
-    await fetch(`http://127.0.0.1:5000/document/${id}`, {
+    await fetch(`${API}/document/${id}`, {
       method: "DELETE",
     });
 
@@ -49,7 +51,7 @@ function Documents() {
   const deleteAllDocuments = async () => {
     if (!window.confirm("⚠️ This will delete ALL documents. Continue?")) return;
 
-    await fetch("http://127.0.0.1:5000/documents", {
+    await fetch(`${API}/documents`, {
       method: "DELETE",
     });
 
@@ -62,7 +64,7 @@ function Documents() {
   }, 400);
 
   return () => clearTimeout(delay);
-}, [search]);
+}, [search,API]);
 
 
 

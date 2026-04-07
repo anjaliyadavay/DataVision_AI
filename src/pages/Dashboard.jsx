@@ -7,6 +7,8 @@ import { FaUpload } from "react-icons/fa";
 import "../styles/dashboard.css";
 
 function Dashboard() {
+
+  const API = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const [docs, setDocs] = useState([]);
 
@@ -36,11 +38,11 @@ function Dashboard() {
 
   // Fetch history from backend
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/documents")
+fetch(`${API}/documents`)
       .then((res) => res.json())
       .then((data) => setDocs(data))
       .catch((err) => console.error(err));
-  }, []);
+  }, [API]);
 
   return (
     <>
@@ -87,7 +89,7 @@ function Dashboard() {
                       <button
                         className="reprocess-btn"
                         onClick={() =>
-                          fetch(`http://127.0.0.1:5000/document/${doc.id}`)
+fetch(`${API}/document/${doc.id}`)
                             .then((res) => res.json())
                             .then((data) =>
                               navigate("/result", {
