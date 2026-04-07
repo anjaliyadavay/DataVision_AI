@@ -28,13 +28,17 @@ UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-POPPLER_PATH = r"C:\poppler-25.12.0\Library\bin"
+# pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+# POPPLER_PATH = r"C:\poppler-25.12.0\Library\bin"
 
 
 # ---------------- MONGODB ----------------
-client = MongoClient("mongodb://localhost:27017/")
-db = client["datavision_ai"]
+# client = MongoClient("mongodb://localhost:27017/")
+# db = client["datavision_ai"]
+# collection = db["documents"]
+
+client = MongoClient("mongodb+srv://anjali:anjali1234@cluster1.wpcxvhd.mongodb.net/datavision?retryWrites=true&w=majority")
+db = client["datavision"]
 collection = db["documents"]
 
 
@@ -93,7 +97,7 @@ def upload():
 
 
     if file.filename.lower().endswith(".pdf"):
-        pages = convert_from_path(filepath, poppler_path=POPPLER_PATH)
+        pages = convert_from_path(filepath)
         for page in pages:
             text += pytesseract.image_to_string(page)
             file_type = "PDF"
@@ -339,4 +343,5 @@ def get_users():
 
 # ---------------- RUN ----------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
+
