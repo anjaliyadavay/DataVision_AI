@@ -18,7 +18,7 @@ from utils.extract_fields import extract_dynamic_fields
 
 
 app = Flask(__name__)
-CORS(app)
+CORS(CORS(app, resources={r"/*": {"origins": "*"}}))
 
 
 
@@ -342,6 +342,7 @@ def get_users():
 
 
 # ---------------- RUN ----------------
+
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5001)))
 
