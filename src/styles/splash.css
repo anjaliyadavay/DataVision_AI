@@ -1,0 +1,127 @@
+/* FULL PAGE BACKGROUND */
+/* FULL PAGE BACKGROUND WITH IMAGE */
+.auth-wrappers {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* 🔥 IMAGE + DARK OVERLAY */
+  background: 
+    linear-gradient(rgba(15, 23, 42, 0.7), rgba(49, 46, 129, 0.7)),
+    url("../assets/img1.jpg");   /* 👉 put your image in public folder */
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  animation: zoomBg 15s ease-in-out infinite alternate;
+
+  color: white;
+  position: relative;
+}
+
+/* REMOVE BOX LOOK */
+.auth-containers {
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  backdrop-filter: none !important;
+
+  text-align: center;
+}
+
+/* PROJECT TITLE */
+.project-info h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 10px;
+
+  background: linear-gradient(90deg, #c4b5fd, #f0abfc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: fadeDown 1s ease;
+}
+
+/* DESCRIPTION */
+.project-info p {
+  max-width: 500px;
+  margin: auto;
+  margin-bottom: 40px;
+
+  font-size: 16px;
+  color: #e0e7ff;
+
+  animation: fadeUp 1.2s ease;
+}
+
+/* BUTTON GROUP */
+.role-switch {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* BUTTON STYLE */
+.role-switch button {
+  padding: 12px 26px;
+  border-radius: 12px;
+  border: none;
+
+  background: linear-gradient(135deg, #6366f1, #7c3aed);
+  color: white;
+
+  font-size: 15px;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+  animation: fadeUp 1.4s ease;
+}
+
+/* HOVER EFFECT */
+.role-switch button:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.6);
+}
+
+/* CLICK EFFECT */
+.role-switch button:active {
+  transform: scale(0.95);
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+/* Background gradient animation */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Fade down */
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade up */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
